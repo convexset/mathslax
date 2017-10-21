@@ -20,6 +20,22 @@ $ SERVER=myhostname.com PORT=9999 node server.js
 Set up an outgoing web hook in Slack pointing to `myhostname.com:9999/typeset`
 (don't forget the `/typeset`). Use `math!` as the prefix.
 
+Also see `run-mathslax.sh`. (Remember to fill in your configuration info.)
+
+# Starting on Boot and Running Forever
+
+An Upstart script (`mathslax-upstart.conf`) that you can place in `/etc/init/`
+has been provided. It uses `forever` and `userdown`, which should be installed
+during the set up via `make install`.
+
+(Remember to fill in your configuration info. Do also replace the "non-root"
+user name which is `www-data` by default.)
+
+To restart (by killing the running process), this should work:
+```
+kill $(ps aux | grep mathslax | grep bin/userdown | grep -v grep | tr -s ' ' ' ' | cut -d ' ' -f 2)
+```
+
 # Usage
 In the Slack channel with the web hook configured, you should be able to
 typeset equations by starting your message with `math!`. For example, `math!
