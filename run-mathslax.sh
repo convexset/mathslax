@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # copy somewhere else because tokens
-SLACK_AUTH_TOKENS="token1; token2"
-SERVER="example.com"
-PORT=12345
-MATHSLAX_DIRECTORY="/opt/mathslax"
+export SLACK_AUTH_TOKENS="token1; token2"
+export SERVER="example.com"
+export PORT=12345
+export MATHSLAX_DIRECTORY="/opt/mathslax"
 
 CURR_DIR=$(pwd)
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -14,6 +14,6 @@ iptables -A OUTPUT -p tcp --sport $PORT -m conntrack --ctstate ESTABLISHED -j AC
 
 cd $MATHSLAX_DIRECTORY
 
-SERVER=$SERVER PORT=$PORT SLACK_AUTH_TOKEN=$SLACK_AUTH_TOKEN node server.js
+node server.js
 
 cd $CURR_DIR
