@@ -15,11 +15,25 @@ export USERDOWN_GID=www-data
 
 CURR_DIR=$(pwd)
 
-iptables -A INPUT -p tcp --dport $PORT -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -p tcp --sport $PORT -m conntrack --ctstate ESTABLISHED -j ACCEPT
+[[ -z "$(iptables -L | grep "dpt:$PORT ctstate NEW,ESTABLISHED")" ]] && iptables -A INPUT -p tcp --dport $PORT -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+[[ -z "$(iptables -L | grep "spt:$PORT ctstate ESTABLISHED")" ]] && iptables -A OUTPUT -p tcp --sport $PORT -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 cd $MATHSLAX_DIRECTORY
 
-userdown server.js
+CMD="userdown $MATHSLAX_DIRECTORY/server.js"
+
+# kill existing
+PS_INFO=$(ps aux | grep node | grep "$CMD" | grep $USERDOWN_UID)
+if [[ ! -z $PS_INFO ]]
+then
+	echo
+	echo "Killing existing process:"
+	echo $PS_INFO
+	echo
+	PID=$(echo $PS_INFO | tr -s ' ' ' ' | cut -d ' ' -f 2)
+	kill -s QUIT $PID
+fi
+
+$CMD
 
 cd $CURR_DIR
