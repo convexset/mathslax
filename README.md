@@ -24,17 +24,12 @@ Also see `run-mathslax.sh`. (Remember to fill in your configuration info.)
 
 # Starting on Boot and Running Forever
 
-An Upstart script (`mathslax-upstart.conf`) that you can place in `/etc/init/`
-has been provided. It uses `forever` and `userdown`, which should be installed
-during the set up via `make install`.
+An supervisord configuration (`mathslax-supervisord.conf`) has been provided.
+It uses `userdown`, which should be installed during the set up via `make install`.
 
 (Remember to fill in your configuration info. Do also replace the "non-root"
 user name which is `www-data` by default.)
 
-To restart (by killing the running process), this should work:
-```
-kill $(ps aux | grep mathslax | grep bin/userdown | grep -v grep | tr -s ' ' ' ' | cut -d ' ' -f 2)
-```
 
 # Usage
 In the Slack channel with the web hook configured, you should be able to

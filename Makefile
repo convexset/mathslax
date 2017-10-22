@@ -3,6 +3,6 @@ server:
 
 install:
 	npm install
-	npm install -g userdown forever
+	npm install -g userdown
 
 PHONY: install server

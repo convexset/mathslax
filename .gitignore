@@ -1,3 +1,4 @@
+run-mathslax.sh
 *.log
 node_modules/
 npm-debug.log
