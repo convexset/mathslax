@@ -15,8 +15,8 @@ export USERDOWN_GID=www-data
 
 CURR_DIR=$(pwd)
 
-[[ -z "$(iptables -L | grep ACCEPT | grep "dpt:$PORT ctstate NEW,ESTABLISHED")" ]] && iptables -A INPUT -p tcp --dport $PORT -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-[[ -z "$(iptables -L | grep ACCEPT | grep "spt:$PORT ctstate ESTABLISHED")" ]] && iptables -A OUTPUT -p tcp --sport $PORT -m conntrack --ctstate ESTABLISHED -j ACCEPT
+[[ -z "$(iptables -L | grep ACCEPT | grep tcp | grep 'anywhere\s\{1,\}anywhere' | grep "dpt:$PORT ctstate NEW,ESTABLISHED")" ]] && iptables -A INPUT -p tcp --dport $PORT -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+[[ -z "$(iptables -L | grep ACCEPT | grep tcp | grep 'anywhere\s\{1,\}anywhere' | grep "spt:$PORT ctstate ESTABLISHED")" ]] && iptables -A OUTPUT -p tcp --sport $PORT -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 cd $MATHSLAX_DIRECTORY
 
